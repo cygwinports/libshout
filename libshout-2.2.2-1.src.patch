@@ -1,0 +1,91 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libshout-2.2.2/Makefile.am src/libshout-2.2.2/Makefile.am
+--- origsrc/libshout-2.2.2/Makefile.am	2006-01-30 19:42:43.000000000 -0600
++++ src/libshout-2.2.2/Makefile.am	2007-04-15 01:20:03.453125000 -0500
+@@ -11,7 +11,7 @@
+ 
+ DISTCLEANFILES = shout-config.in
+ 
+-docdir = $(datadir)/doc/$(PACKAGE)
++docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
+ doc_DATA = COPYING NEWS README examples/example.c examples/nonblocking.c
+ 
+ m4datadir = $(datadir)/aclocal
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libshout-2.2.2/m4/xiph_net.m4 src/libshout-2.2.2/m4/xiph_net.m4
+--- origsrc/libshout-2.2.2/m4/xiph_net.m4	2005-06-27 16:33:35.000000000 -0500
++++ src/libshout-2.2.2/m4/xiph_net.m4	2007-04-15 01:27:06.671875000 -0500
+@@ -5,9 +5,12 @@
+ AC_REQUIRE([XIPH_TYPE_SOCKLEN_T])
+ AC_REQUIRE([XIPH_FUNC_VA_COPY])
+ AC_CHECK_HEADERS([sys/select.h sys/uio.h])
++case "$host_os" in
++mingw*)
+ AC_CHECK_HEADER([winsock2.h],
+   [AC_DEFINE([HAVE_WINSOCK2_H], [1], [Define if you have winsock2.h on MINGW])
+    LIBS="$LIBS -lwsock32"])
++esac
+ 
+ # These tests are ordered based on solaris 8 tests
+ AC_SEARCH_LIBS([sethostent], [nsl],
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libshout-2.2.2/src/Makefile.am src/libshout-2.2.2/src/Makefile.am
+--- origsrc/libshout-2.2.2/src/Makefile.am	2006-01-30 19:42:42.000000000 -0600
++++ src/libshout-2.2.2/src/Makefile.am	2007-04-15 01:35:22.812500000 -0500
+@@ -18,7 +18,7 @@
+ SUBDIRS = avl net timing httpp $(MAYBE_THREAD)
+ 
+ lib_LTLIBRARIES = libshout.la
+-libshout_la_LDFLAGS = -version-info 5:0:2
++libshout_la_LDFLAGS = -version-info 5:0:2 -no-undefined
+ 
+ EXTRA_DIST = theora.c speex.c
+ noinst_HEADERS = shout_ogg.h shout_private.h util.h
+@@ -26,7 +26,7 @@
+ AM_CFLAGS = @XIPH_CFLAGS@
+ 
+ libshout_la_LIBADD = net/libicenet.la timing/libicetiming.la avl/libiceavl.la\
+-		httpp/libicehttpp.la $(MAYBE_THREAD_LIB) $(THEORA_LIBS) $(VORBIS_LIBS)
++		httpp/libicehttpp.la $(MAYBE_THREAD_LIB) $(THEORA_LIBS) $(VORBIS_LIBS) $(SPEEX_LIBS)
+ 
+ INCLUDES = -I$(top_builddir)/include
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libshout-2.2.2/src/net/resolver.c src/libshout-2.2.2/src/net/resolver.c
+--- origsrc/libshout-2.2.2/src/net/resolver.c	2005-06-27 16:34:07.000000000 -0500
++++ src/libshout-2.2.2/src/net/resolver.c	2007-04-15 01:30:45.468750000 -0500
+@@ -58,7 +58,7 @@
+ #endif
+ static int _initialized = 0;
+ 
+-#ifdef HAVE_INET_PTON
++#ifdef AF_INET6
+ static int _isip(const char *what)
+ {
+     union {
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/libshout-2.2.2/src/net/sock.c src/libshout-2.2.2/src/net/sock.c
+--- origsrc/libshout-2.2.2/src/net/sock.c	2005-06-27 16:34:07.000000000 -0500
++++ src/libshout-2.2.2/src/net/sock.c	2007-04-15 01:32:49.937500000 -0500
+@@ -737,12 +737,14 @@
+         if (inet_pton(AF_INET, ip, &((struct sockaddr_in*)&sa)->sin_addr) > 0) {
+             ((struct sockaddr_in*)&sa)->sin_family = AF_INET;
+             ((struct sockaddr_in*)&sa)->sin_port = htons(port);
++#ifdef AF_INET6
+         } else if (inet_pton(AF_INET6, ip, 
+                     &((struct sockaddr_in6*)&sa)->sin6_addr) > 0) {
+             family = AF_INET6;
+             len = sizeof (struct sockaddr_in6);
+             ((struct sockaddr_in6*)&sa)->sin6_family = AF_INET6;
+             ((struct sockaddr_in6*)&sa)->sin6_port = htons(port);
++#endif /* AF_INET6 */
+         } else {
+             return SOCK_ERROR;
+         }
+@@ -809,9 +811,11 @@
+         if(((struct sockaddr_in *)&sa)->sin_family == AF_INET) 
+             inet_ntop(AF_INET, &((struct sockaddr_in *)&sa)->sin_addr,
+                     ip, len);
++#ifdef AF_INET6
+         else if(((struct sockaddr_in6 *)&sa)->sin6_family == AF_INET6) 
+             inet_ntop(AF_INET6, &((struct sockaddr_in6 *)&sa)->sin6_addr, 
+                     ip, len);
++#endif /* AF_INET6 */
+         else {
+             strncpy(ip, "ERROR", len-1);
+             ip[len-1] = 0;

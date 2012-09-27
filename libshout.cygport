@@ -1,0 +1,19 @@
+NAME="libshout"
+VERSION=2.3.1
+RELEASE=1
+CATEGORY="Audio Video"
+SUMMARY="Icecast streaming media client library"
+DESCRIPTION="Libshout is a library for communicating with and sending data to
+an Icecast server.  It handles the socket connection, the timing of the data,
+and prevents bad data from getting to the Icecast server."
+HOMEPAGE="http://www.icecast.org/"
+SRC_URI="http://downloads.us.xiph.org/releases/${PN}/${P}.tar.gz"
+PATCH_URI="2.2.2-no-undefined.patch"
+
+PKG_NAMES="${PN}3 ${PN}-devel"
+libshout3_CONTENTS="usr/bin/cygshout-3.dll usr/share/doc/"
+libshout_devel_CONTENTS="usr/include/ usr/lib/ usr/share/aclocal/"
+
+CYGCONF_ARGS="ac_cv_header_winsock2_h=no"
+
+KEEP_LA_FILES="none"

@@ -1,7 +1,0 @@
-category: Audio Video
-requires: libshout3 libogg-devel speex-devel libtheora-devel libvorbis-devel
-external-source: libshout
-sdesc: "Icecast client library (development)"
-ldesc: "Libshout is a library for communicating with and sending data to an
-icecast server.  It handles the socket connection, the timing of the
-data, and prevents bad data from getting to the icecast server."

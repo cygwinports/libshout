@@ -1,7 +1,0 @@
-category: Audio Video
-requires: libgcc1 libogg0 libspeex1 libtheora0 libvorbis0
-external-source: libshout
-sdesc: "Icecast client library (runtime)"
-ldesc: "Libshout is a library for communicating with and sending data to an
-icecast server.  It handles the socket connection, the timing of the
-data, and prevents bad data from getting to the icecast server."
